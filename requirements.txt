@@ -1,0 +1,16 @@
+numpy
+networkx
+pydantic
+tqdm
+pytest
+pytest-cov
+coverage
+flake8
+black
+isort
+mypy
+numba
+fastapi
+uvicorn
+python-dotenv
+
