@@ -1,0 +1,34 @@
+{
+  "routes": {
+    "A1": {
+      "route": [
+        1,
+        4,
+        5
+      ],
+      "status": "completed"
+    },
+    "A2": {
+      "route": [
+        2,
+        1,
+        2,
+        3,
+        5,
+        4
+      ],
+      "status": "completed"
+    },
+    "A3": {
+      "route": [
+        3,
+        5,
+        4,
+        1
+      ],
+      "status": "completed"
+    }
+  },
+  "total_cost": 0,
+  "meta": {}
+}

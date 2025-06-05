@@ -1,0 +1,88 @@
+# examples/example_dynamic.yaml
+
+nodes:
+  - id: 1
+    attributes: {}
+  - id: 2
+    attributes: {}
+  - id: 3
+    attributes: {}
+  - id: 4
+    attributes: {}
+  - id: 5
+    attributes: {}
+
+edges:
+  - source: 1
+    target: 2
+    weight: 10.0
+  - source: 2
+    target: 1
+    weight: 10.0
+  - source: 1
+    target: 3
+    weight: 18.0
+  - source: 3
+    target: 1
+    weight: 18.0
+  - source: 1
+    target: 4
+    weight: 25.0
+  - source: 4
+    target: 1
+    weight: 25.0
+  - source: 1
+    target: 5
+    weight: 30.0
+  - source: 5
+    target: 1
+    weight: 30.0
+  - source: 2
+    target: 3
+    weight: 12.0
+  - source: 3
+    target: 2
+    weight: 12.0
+  - source: 2
+    target: 4
+    weight: 22.0
+  - source: 4
+    target: 2
+    weight: 22.0
+  - source: 2
+    target: 5
+    weight: 27.0
+  - source: 5
+    target: 2
+    weight: 27.0
+  - source: 3
+    target: 4
+    weight: 14.0
+  - source: 4
+    target: 3
+    weight: 14.0
+  - source: 3
+    target: 5
+    weight: 16.0
+  - source: 5
+    target: 3
+    weight: 16.0
+  - source: 4
+    target: 5
+    weight: 19.0
+  - source: 5
+    target: 4
+    weight: 19.0
+
+constraints: {}
+
+agents:
+  - id: "A1"
+    start: 1
+    goal: 5
+  - id: "A2"
+    start: 2
+    goal: 4
+  - id: "A3"
+    start: 3
+    goal: 1
