@@ -1,17 +1,11 @@
-
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/2c580476-3057-4a2f-ae24-3e00809239a2" alt="Q-TRAX Banner" width="100%"/>
+</p>
 # Q-TRAX Algorithm
 
 **Quantum-Inspired Logistics Optimizer**  
 _A production-ready engine for intelligent route planning, resource scheduling, and dynamic allocation across supply chain networks._
 
----
-
-<p align="center">
-  <img src="![Profile banner - 1](https://github.com/user-attachments/assets/2c580476-3057-4a2f-ae24-3e00809239a2)
-" alt="Q-TRAX Banner" width="100%"/>
-</p>
-
----
 
 ## 🧭 Purpose
 
