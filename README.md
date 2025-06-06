@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://github.com/user-attachments/assets/3cf20390-dfc3-4a9e-960f-b2477a652108" alt="Q-TRAX Banner" width="100%"/>
 </p>
-# Q-TRAX Algorithm
+# QU-TRAX Algorithm
 
 **Quantum-Inspired Logistics Optimizer**  
 _A production-ready engine for intelligent route planning, resource scheduling, and dynamic allocation across supply chain networks._
@@ -15,7 +15,7 @@ _A production-ready engine for intelligent route planning, resource scheduling, 
 
 ## 🧱 Architecture Overview
 
-Q-TRAX is structured into modular services:
+QU-TRAX is structured into modular services:
 
 - **Routing Engine**: Calculates shortest and most efficient paths using VRP/TSP techniques.
 - **Scheduling Core**: Assigns time slots and delivery batches under constraints.
