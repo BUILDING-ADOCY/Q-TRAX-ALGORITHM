@@ -165,14 +165,3 @@ This project is licensed under the **MIT License** — see the [LICENSE](./LICEN
 * [ ] Visual route simulator with real-time updates
 * [ ] Distributed optimization engine (Spark/Dask)
 
-```
-
----
-
-Would you like me to:
-1. Generate a **custom banner image**?
-2. Add a **README badge section** (build passing, license, etc.)?
-3. Add visuals like **architecture diagrams or algorithm flowcharts**?
-
-Let me know and I’ll include them.
-```
