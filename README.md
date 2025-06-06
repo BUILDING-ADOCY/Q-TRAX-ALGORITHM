@@ -1,5 +1,6 @@
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/2c580476-3057-4a2f-ae24-3e00809239a2" alt="Q-TRAX Banner" width="100%"/>
+  <img src="https://github.com/user-attachments/assets/3cf20390-dfc3-4a9e-960f-b2477a652108
+" alt="Q-TRAX Banner" width="100%"/>
 </p>
 # Q-TRAX Algorithm
 
