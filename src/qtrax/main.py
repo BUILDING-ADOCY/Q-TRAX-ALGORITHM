@@ -1,5 +1,5 @@
 """
-Command-line entrypoint for Q-TRAX: load a problem, solve it (static or dynamic),
+Command-line entrypoint for QU-TRAX: load a problem, solve it (static or dynamic),
 and write out solution.
 """
 import argparse

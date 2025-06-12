@@ -65,15 +65,16 @@ class Annealer:
 
 
 # --- Utility functions for TSP problems ---
-def tsp_total_cost(solution: Solution, problem: Problem) -> float:
-    """
-    Calculates the total cost of a TSP route (sum of edge weights).
-    Assumes 'solution.routes' is a list of node IDs in visiting order.
-    """
-    route = solution.routes
+def tsp_total_cost(sol: Solution, problem: Problem) -> float:
     total = 0.0
+    route = sol.routes
     for i in range(len(route) - 1):
-        total += problem.distance(route[i], route[i + 1])
+        try:
+            total += problem.distance(route[i], route[i + 1])
+        except ValueError:
+            # Edge disappeared – treat as prohibitive so SA will reject the neighbour
+            total += 1e9
+    sol.total_cost = total
     return total
 
 

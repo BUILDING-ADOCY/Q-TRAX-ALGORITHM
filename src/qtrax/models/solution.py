@@ -2,7 +2,7 @@
 Solution representation for Q-TRAX Algorithm.
 Models routes, total cost, and provides serialization.
 """
-from typing import Dict, List, Any
+from typing import Dict, List, Any # type: ignore
 
 class Solution:
     """
@@ -14,7 +14,7 @@ class Solution:
         self,
         routes: Any,  # Could be List[int] (TSP) or Dict[str, List[int]] (VRP)
         total_cost: float,
-        meta: Dict[str, Any] = None,
+        meta: Dict[str, Any] = None, # type: ignore
     ):
         self.routes = routes
         self.total_cost = total_cost

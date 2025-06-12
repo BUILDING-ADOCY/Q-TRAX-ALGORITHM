@@ -1,75 +1,82 @@
+# ───────────────────────────────────────────────
 # src/qtrax/services/api.py
-
-from fastapi import FastAPI, Body, HTTPException # type: ignore
+# ───────────────────────────────────────────────
+import os, json, yaml, tempfile, logging # type: ignore
 from typing import Any, Dict
-import tempfile
-import yaml # type: ignore
-import json
-import os
 
-from src.qtrax.services.dynamic_runner import dynamic_solve
+from fastapi import FastAPI, Body, HTTPException, APIRouter, Path
+from fastapi.logger import logger
+from rq import Queue
+from rq.job import Job
 
+from src.qtrax.services.task_queue import qtrax_queue, redis_conn
+from src.qtrax.services.dynamic_task import background_dynamic_solve # type: ignore
+
+# ── logging ─────────────────────────────────────
+logger.setLevel(logging.INFO)
+
+# ── HTTP polling router ─────────────────────────
+router = APIRouter()
+
+@router.get("/job/{job_id}/result", response_model=Dict[str, Any])
+async def job_result(job_id: str = Path(..., description="RQ job-ID to fetch")): # type: ignore
+    """
+    200 → finished, body = job.result
+    202 → still running
+    404 → unknown id
+    500 → job failed (exception inside worker)
+    """
+    q = Queue("qtrax_queue", connection=redis_conn)
+    job: Job | None = q.fetch_job(job_id) # type: ignore
+    if job is None:
+        raise HTTPException(404, "Unknown job id")
+
+    if job.is_finished:
+        result = job.result or job.meta.get("result", {})
+        if not isinstance(result, dict):
+            result = {"status": "success", "routes": result} # type: ignore
+        elif not result.get("status"): # type: ignore
+            result = {"status": "success", "routes": result} # type: ignore
+        return result # type: ignore
+
+    if job.is_failed:
+        return {"status": "error", "routes": None, "error": job.exc_info} # type: ignore
+    raise HTTPException(202, "Job still running")
+
+# ── FastAPI app ────────────────────────────────
 app = FastAPI(
     title="Q-TRAX Dynamic Solver API",
-    description="Submit a dynamic routing problem (graph + agents + events) and "
-                "receive multi-agent routes optimized by a quantum-inspired annealer.",
-    version="1.0.0"
+    description="Enqueue dynamic-solve jobs, poll via HTTP.",
+    version="1.0.0",
 )
+app.include_router(router)
 
-@app.post("/solve_dynamic", response_model=Dict[str, Any])
-async def solve_dynamic_endpoint(request_body: Dict[str, Any] = Body(...)):
-    """
-    Accepts a JSON body with:
-      - nodes:      [ { id: int, attributes: {...} }, ... ]
-      - edges:      [ { source: int, target: int, weight: float, attributes: {...} }, ... ]
-      - constraints: {...}                       # optional constraints
-      - agents:     [ { id: str, start: int, goal: int }, ... ]
-      - events:     [ { tick: int, action: {...} }, ... ]  # optional dynamic events schedule
-      - solver_params: { max_tick: int, mini_iter: int, start_temp: float, ... }  # optional overrides
-
-    Returns a dict mapping each agent ID to its final route and status.
-    """
-    # 1. Write the incoming JSON to a temporary YAML file so our dynamic_solve can load it
+# ── enqueue endpoint ───────────────────────────
+@app.post("/enqueue_dynamic", response_model=Dict[str, str])
+async def enqueue_dynamic(request_body: Dict[str, Any] = Body(...)):
     try:
-        tmp = tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".yaml")
-        yaml.safe_dump(request_body, tmp, sort_keys=False)
-        tmp.flush()
-        tmp_name = tmp.name
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to serialize request to YAML: {e}")
+        cfg_fd = tempfile.NamedTemporaryFile("w", delete=False, suffix=".yaml")
+        yaml.safe_dump(request_body, cfg_fd, sort_keys=False)
+        cfg_fd.flush()
+        config_path = cfg_fd.name
 
-    # 2. Extract solver parameters (with defaults)
-    solver_params = request_body.get("solver_params", {})
-    max_tick = solver_params.get("max_tick", 100)
-    use_yaml = True  # always using the temporary YAML
+        out_fd = tempfile.NamedTemporaryFile("w", delete=False, suffix=".json")
+        output_path = out_fd.name
+        out_fd.close()
 
-    # 3. Prepare a temporary output path
-    out_tmp = tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json")
-    out_path = out_tmp.name
-    out_tmp.close()
+        solver_params = request_body.get("solver_params", {})
 
-    # 4. Call the dynamic_solve routine
-    try:
-        results = dynamic_solve(
-            config_path=tmp_name,
-            output_path=out_path,
-            use_yaml=use_yaml,
-            max_tick=max_tick
+        job = qtrax_queue.enqueue( # type: ignore
+            background_dynamic_solve, # type: ignore
+            config_path,
+            output_path,
+            solver_params,
+            job_timeout=600,
         )
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error during dynamic_solve: {e}")
+        job_id = job.get_id()
+        logger.info(f"Enqueued job {job_id}")
+        return {"job_id": job_id}
 
-    # 5. Read back the JSON that dynamic_solve wrote (for completeness)
-    try:
-        with open(out_path, "r") as f:
-            solution_json = json.load(f)
     except Exception:
-        # If reading fails, fallback to returning the `results` dict directly
-        solution_json = {"routes": results, "error": "Output JSON not found or unreadable"} # type: ignore
-
-    # 6. Clean up temporary files
-    os.unlink(tmp_name)
-    os.unlink(out_path)
-
-    return solution_json # type: ignore
-
+        logger.exception("Failed to enqueue job")
+        raise HTTPException(500, "Internal Server Error")
