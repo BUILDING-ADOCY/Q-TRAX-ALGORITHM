@@ -209,8 +209,8 @@ A logistics company wants to optimize delivery routes for a fleet of vehicles, m
 ## 📝 Contact & Contribution
 
 Feel free to contribute or raise issues!
-Contact: \[[your-email@example.com](mailto:your-email@example.com)]
-GitHub: [https://github.com/yourusername/q-trax](https://github.com/yourusername/q-trax)
+Contact: \[[surajmahapatra2003@gmail.com](mailto:surajmahapatra2003@gmail.com)]
+GitHub: \([https://github.com/yourusername/q-trax](https://github.com/BUILDING-ADOCY/Q-TRAX-ALGORITHM.git))
 
 ---
 
