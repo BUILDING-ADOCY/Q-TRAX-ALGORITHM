@@ -57,7 +57,7 @@ Leveraging quantum-inspired algorithms like Simulated Annealing and Quantum Coll
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/q-trax.git
+git clone https://github.com/BUILDING-ADOCY/Q-TRAX-ALGORITHM.git
 cd q-trax
 ````
 
@@ -210,7 +210,7 @@ A logistics company wants to optimize delivery routes for a fleet of vehicles, m
 
 Feel free to contribute or raise issues!
 Contact: \[[surajmahapatra2003@gmail.com](mailto:surajmahapatra2003@gmail.com)]
-GitHub: \([https://github.com/yourusername/q-trax](https://github.com/BUILDING-ADOCY/Q-TRAX-ALGORITHM.git))
+GitHub: \([https://github.com/BUILDING-ADOCY/Q-TRAX-ALGORITHM.git](https://github.com/BUILDING-ADOCY/Q-TRAX-ALGORITHM.git))
 
 ---
 
