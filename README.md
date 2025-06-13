@@ -2,15 +2,12 @@
   <img src="https://github.com/user-attachments/assets/3cf20390-dfc3-4a9e-960f-b2477a652108" alt="Q-TRAX Banner" width="100%"/>
 </p>
 
-# Q-TRAX Algorithm
-
-**Quantum-Inspired Logistics Optimizer**
-
+# QU-TRAX Algorithm - **Quantum-Inspired Logistics Optimizer**
 ---
 
-## 🚀 Project Overview
+## Project Overview
 
-Q-TRAX is a production-ready, quantum-inspired logistics optimization engine designed to solve complex problems in supply chain management, such as:
+QU-TRAX is a production-ready, quantum-inspired logistics optimization engine designed to solve complex problems in supply chain management, such as:
 
 - Route optimization (TSP, VRP)  
 - Dynamic scheduling and resource allocation  
